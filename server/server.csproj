@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>7aa23398-7f70-412a-8bd1-a7c2d4719fda</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.1" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.1" NoWarn="NU1605" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="SpotifyAPI.Web" Version="6.0.0" />
+    <PackageReference Include="SpotifyAPI.Web.Auth" Version="6.0.0" />
+    <PackageReference Include="AspNet.Security.OAuth.Spotify" Version="5.0.0" />
+  </ItemGroup>
+
+</Project>
