@@ -37,6 +37,12 @@ namespace server
             credential.spotifyClientId = spotifyClientId;
             credential.spotifyClientSecret = spotifyClientSecret;
             services.AddControllers();
+            services.AddCors(o => o.AddPolicy("AllowAll", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
             services.AddHttpContextAccessor();
 
             services.AddSingleton(SpotifyClientConfig.CreateDefault());
@@ -56,13 +62,10 @@ namespace server
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "server v1"));
             }
-
+            app.UseCors("AllowAll");
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
