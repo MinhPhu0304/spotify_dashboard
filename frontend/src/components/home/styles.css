@@ -1,0 +1,24 @@
+.Spofity__oauth__button {
+    border-radius: 500px;
+    padding: 11px 32px 9px;
+    line-height: 1;
+    border-width: 0;
+    min-width: 160px;
+    text-transform: uppercase;
+    border-color: #1aa34a;
+    background-color: #1db954;
+    color: #fff;
+    border-color: #1db954;
+    cursor: pointer;
+}
+
+.Spofity__oauth__button:focus {
+    outline-offset: -2px;
+    outline: none;
+}
+
+.Spofity__oauth__button:hover {
+    background-color: #1aa34a;
+    box-shadow: 0 0 0 2px rgba(0,0,0,.1)inset;
+    text-decoration: none;
+}
