@@ -36,7 +36,7 @@ namespace server.Controllers
 
         [HttpGet]
         [Route("[controller]/callback")]
-        public async Task<bool> OauthCallBack()
+        public async Task<IActionResult> OauthCallBack()
         {
             string oauthCode = HttpContext.Request.Query["code"].ToString();
             if (oauthCode != null)
@@ -56,7 +56,7 @@ namespace server.Controllers
                 var responseJSON = JsonConvert.DeserializeObject<SpotifyTokenResponse>(resultContent);
                 SetSpotifyAccessTokenCookie(responseJSON.access_token, responseJSON.expires_in);
             }
-            return true;
+            return Redirect(new Uri("http://localhost:3000/dashboard").ToString());
         }
 
         private void SetSpotifyAccessTokenCookie(string spotifyAccessToken, int expireInSeconds)
@@ -83,7 +83,7 @@ namespace server.Controllers
                 return Redirect(request.ToUri().ToString());
             }
 
-            return Redirect(new Uri("https://localhost:5001/ping").ToString());
+            return Redirect(new Uri("http://localhost:3000/dashboard").ToString());
         }
     }
 }
