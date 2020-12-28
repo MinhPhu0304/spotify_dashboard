@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 
 import { TopArtist } from './topArtists'
 import '../home/styles.css'
+import './index.css'
 
 export function Dashboard() {
     const [spotifyAccessToken, setSpotifyAccesToken] = useState('')
@@ -32,10 +33,12 @@ export function Dashboard() {
     }
 
     return (
-        <div className="App">
-            View your top artists
+        <div>
+            <h1>Your Top Artists in 2020</h1>
             <button className="Spofity__oauth__button" onClick={getTopArtists}> View your top artist </button>
-            <TopArtist artistList={artistList}/>
+            <div className="Top_artists_list__container">
+                <TopArtist artistList={artistList}/>
+            </div>
         </div>
     )
 }

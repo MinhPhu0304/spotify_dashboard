@@ -1,7 +1,9 @@
-import { last } from 'lodash'
+import { last, startCase } from 'lodash'
+
+import './artist.css'
+import { formatNumber } from 'utils'
 
 export function TopArtist({ artistList }) {
-
     if (artistList == null ) {
         return null
     }
@@ -11,13 +13,16 @@ export function TopArtist({ artistList }) {
 
 function ArtistDetail ({ artist, rank }) {
     return (
-        <div>
-            <h2>{rank + 1}</h2>
-            <h3>Name: {artist.name}</h3>
+        <div className="artists__container">
+            <h2 className="text-center">{rank + 1}</h2>
+            <h3 className="text-center">{artist.name}</h3>
             <img src={last(artist.images).url}/>
-            <p>Followers: {artist.followers.total}</p>
-            <p>Genres: {artist.genres.join(", ")}</p>
-            <p>Popularity: {artist.popularity}</p>
+            <p>Followers: {formatNumber(artist.followers.total)}</p>
+            <p className="artists__genres text-left">{convertAllToStartCases(artist.genres).join(", ")}</p>
         </div>
     )
+}
+
+function convertAllToStartCases(stringArrays) {
+    return stringArrays.map((value) => startCase(value))
 }
