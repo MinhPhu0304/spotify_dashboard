@@ -4,4 +4,4 @@ Use case: view your Spotify top artist
 
 Example screenshot. Sorry for my bad music taste
 
-![Example](/docs/example.png)
+![Example](https://github.com/MinhPhu0304/spotify_dashboard/blob/main/docs/example.PNG)
