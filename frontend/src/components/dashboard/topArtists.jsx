@@ -15,8 +15,9 @@ function ArtistDetail ({ artist, rank }) {
     return (
         <div className="artists__container">
             <h2 className="text-center">{rank + 1}</h2>
-            <h3 className="text-center">{artist.name}</h3>
-            <img src={last(artist.images).url}/>
+            <img src={last(artist.images).url} className="artist__image"/>
+            
+            <h1 className="artist-title">{artist.name}</h1>
             <p>Followers: {formatNumber(artist.followers.total)}</p>
             <p className="artists__genres text-left">{convertAllToStartCases(artist.genres).join(", ")}</p>
         </div>

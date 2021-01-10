@@ -1,14 +1,20 @@
 .artists__container {
-    width: 227px;
+    width: 25vw;
+    aspect-ratio: 1/1;
     background-color: black;
     color: white;
     padding: 10px;
     margin: 20px;
-    text-align: center;
 }
 
 .artists__genres {
     color: grey;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    display: -webkit-box;
 }
 
 .text-center {
@@ -17,4 +23,11 @@
 
 .text-left {
     text-align: left;
+}
+
+.artist__image {
+    width: 25vw;
+    height:25vw;
+    min-width: 20vw;
+    object-fit: cover;
 }

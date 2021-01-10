@@ -16,6 +16,7 @@ export function Dashboard() {
             pageHistory.push('/')
         } else {
             setSpotifyAccesToken(spotifyToken)
+            getTopArtists()
         }
     }, [])
 
