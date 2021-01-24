@@ -63,6 +63,7 @@ namespace server.Controllers
         {
             var options = new CookieOptions
             {
+                Secure = true,
                 Expires = DateTime.Now.AddSeconds(expireInSeconds),
                 IsEssential = true,
                 SameSite = SameSiteMode.None,
