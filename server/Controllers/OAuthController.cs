@@ -14,7 +14,7 @@ namespace server.Controllers
     [ApiController]
     public class OAuthController : Controller
     {
-        private CredentialSingleton credential;
+        private readonly CredentialSingleton credential;
         public OAuthController()
         {
             credential = CredentialSingleton.getInstance();
@@ -49,14 +49,14 @@ namespace server.Controllers
                         new KeyValuePair<string, string>("client_secret", credential.spotifyClientSecret),
                         new KeyValuePair<string, string>("client_id", credential.spotifyClientId),
                         new KeyValuePair<string, string>("grant_type", "authorization_code"),
-                        new KeyValuePair<string, string>("redirect_uri", "https://localhost:5001/oauth/callback"),
+                        new KeyValuePair<string, string>("redirect_uri", credential.redirectURI),
                      });
                 var result = await client.PostAsync("/api/token", content);
                 string resultContent = await result.Content.ReadAsStringAsync();
                 var responseJSON = JsonConvert.DeserializeObject<SpotifyTokenResponse>(resultContent);
                 SetSpotifyAccessTokenCookie(responseJSON.access_token, responseJSON.expires_in);
             }
-            return Redirect(new Uri("http://localhost:3000/dashboard").ToString());
+            return Redirect(new Uri(credential.dashboardURI).ToString());
         }
 
         private void SetSpotifyAccessTokenCookie(string spotifyAccessToken, int expireInSeconds)
@@ -64,8 +64,9 @@ namespace server.Controllers
             var options = new CookieOptions
             {
                 Expires = DateTime.Now.AddSeconds(expireInSeconds),
-                IsEssential = true
-            };
+                IsEssential = true,
+                SameSite = SameSiteMode.None,
+        };
             Response.Cookies.Append("spotifyToken", spotifyAccessToken, options);
         }
 
@@ -76,14 +77,15 @@ namespace server.Controllers
             var spotifyAccessToken = HttpContext.Request.Cookies["spotifyToken"];
             if (spotifyAccessToken == null)
             {
-                var request = new LoginRequest(new Uri("https://localhost:5001/oauth/callback"), credential.spotifyClientId, LoginRequest.ResponseType.Code)
+                var request = new LoginRequest(new Uri(credential.redirectURI), credential.spotifyClientId, LoginRequest.ResponseType.Code)
                 {
                     Scope = new[] { UserReadEmail, UserTopRead }
                 };
                 return Redirect(request.ToUri().ToString());
             }
 
-            return Redirect(new Uri("http://localhost:3000/dashboard").ToString());
+            return Redirect(new Uri(credential.dashboardURI).ToString());
         }
     }
 }
+    

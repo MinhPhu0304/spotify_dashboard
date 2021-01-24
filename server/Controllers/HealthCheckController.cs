@@ -10,7 +10,7 @@ namespace server.Controllers
     public class HealthCheckController : Controller
     {
         [HttpGet]
-        public ActionResult healthCheck()
+        public ActionResult HealthCheck()
         {
             return Ok(new HealthCheckResponse { success = true });
         }

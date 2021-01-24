@@ -32,7 +32,15 @@ namespace server
         public void ConfigureServices(IServiceCollection services)
         {
             string spotifyClientId = Configuration["spotify_client_id"];
+            if (spotifyClientId == null)
+            {
+                spotifyClientId = Environment.GetEnvironmentVariable("spotify_client_id");
+            }
             string spotifyClientSecret = Configuration["spotify_client_secret"];
+            if (spotifyClientSecret == null)
+            {
+                spotifyClientSecret = Environment.GetEnvironmentVariable("spotify_client_secret");
+            }
             CredentialSingleton credential = CredentialSingleton.getInstance();
             credential.spotifyClientId = spotifyClientId;
             credential.spotifyClientSecret = spotifyClientSecret;
