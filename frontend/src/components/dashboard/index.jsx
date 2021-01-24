@@ -12,13 +12,7 @@ export function Dashboard() {
     const pageHistory = useHistory()
     const [loading, toggleLoading] = useState(true)
     useEffect(() => {
-        const spotifyToken = Cookies.get("spotifyToken");
-        if (spotifyToken == null) {
-            pageHistory.push('/')
-        } else {
-            setSpotifyAccesToken(spotifyToken)
-            getTopArtists()
-        }
+        getTopArtists()
     }, [])
 
     const getTopArtists = async () => {
