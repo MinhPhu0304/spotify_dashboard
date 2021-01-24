@@ -1,4 +1,4 @@
-import { last, startCase } from 'lodash'
+import { first, startCase } from 'lodash'
 
 import './artist.css'
 import { formatNumber } from 'utils'
@@ -15,7 +15,7 @@ function ArtistDetail ({ artist, rank }) {
     return (
         <div className="artists__container">
             <h2 className="text-center">{rank + 1}</h2>
-            <img src={last(artist.images).url} className="artist__image"/>
+            <img src={first(artist.images).url} className="artist__image"/>
             
             <h1 className="artist-title">{artist.name}</h1>
             <p>Followers: {formatNumber(artist.followers.total)}</p>
