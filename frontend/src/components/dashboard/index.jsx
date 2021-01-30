@@ -19,6 +19,7 @@ export function Dashboard() {
         const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/personal/top_artists`, {
             method: 'GET',
             credentials: 'include',
+            mode: 'cors',
         });
         if (response.ok) {
             const data = await response.json()
