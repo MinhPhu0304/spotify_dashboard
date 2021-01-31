@@ -14,7 +14,7 @@ namespace server
             if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("AWS_LAMBDA_FUNCTION_NAME")))
             {
                 redirectURI = "https://localhost:5001/oauth/callback";
-                dashboardURI = "http://localhost:3000/dashboard";
+                dashboardURI = "http://localhost:3000/callback";
             }
             else
             {

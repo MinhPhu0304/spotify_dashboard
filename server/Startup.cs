@@ -47,15 +47,11 @@ namespace server
             services.AddControllers();
             services.AddCors(o => o.AddPolicy("AllowAll", builder =>
             {
-                builder.WithOrigins("http://localhost:3000")
-                       .AllowCredentials()
+                builder.WithOrigins(new string[] { "https://spotify.minh.rocks", "http://localhost:3000" })
+                       .AllowAnyHeader()
                        .AllowAnyMethod()
-                       .AllowAnyHeader();
+                       .AllowCredentials();
             }));
-            services.AddHttpContextAccessor();
-
-            services.AddSingleton(SpotifyClientConfig.CreateDefault());
-            services.AddScoped<SpotifyClientBuilder>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "server", Version = "v1" });

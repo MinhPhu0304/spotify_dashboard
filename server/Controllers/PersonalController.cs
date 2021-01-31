@@ -16,6 +16,11 @@ namespace server.Controllers
         public async Task<IActionResult> GetTopArtist()
         {
             var spotifyAccessToken = HttpContext.Request.Cookies["spotifyToken"];
+            string headerToken = HttpContext.Request.Headers["spotify-token"];
+            if (spotifyAccessToken == null && headerToken != null) 
+            {
+                spotifyAccessToken = headerToken;
+            }
             if (spotifyAccessToken != null)
             {
                 var spotify = new SpotifyClient(spotifyAccessToken);
