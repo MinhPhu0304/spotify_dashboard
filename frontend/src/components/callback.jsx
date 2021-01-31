@@ -11,11 +11,11 @@ export function CallBackPage() {
         toggleLoading(!loading)
         if (params.get('token') != null) {
             Cookies.set('spotifyToken', params.get('token'), { expires: 3600 });
-            siteHistory.push('/dashboard');
+            setTimeout(() => siteHistory.push('/dashboard'), 200);
         } else {
             setFailedLogin(true);
         }
-    })
+    }, [])
     return (
         <div>
             <h1>Almost there</h1>

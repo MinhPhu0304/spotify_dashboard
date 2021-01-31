@@ -39,6 +39,7 @@ namespace server.Controllers
         public async Task<IActionResult> OauthCallBack()
         {
             string oauthCode = HttpContext.Request.Query["code"].ToString();
+            string token = "";
             if (oauthCode != null)
             {
                 var client = new HttpClient();
@@ -54,19 +55,18 @@ namespace server.Controllers
                 var result = await client.PostAsync("/api/token", content);
                 string resultContent = await result.Content.ReadAsStringAsync();
                 var responseJSON = JsonConvert.DeserializeObject<SpotifyTokenResponse>(resultContent);
+                token = responseJSON.access_token;
                 SetSpotifyAccessTokenCookie(responseJSON.access_token, responseJSON.expires_in);
             }
-            return Redirect(new Uri(credential.dashboardURI).ToString());
+            return Redirect(new Uri(credential.dashboardURI + "?token="+ token).ToString());
         }
 
         private void SetSpotifyAccessTokenCookie(string spotifyAccessToken, int expireInSeconds)
         {
             var options = new CookieOptions
             {
-                Secure = true,
                 Expires = DateTime.Now.AddSeconds(expireInSeconds),
                 IsEssential = true,
-                SameSite = SameSiteMode.None,
         };
             Response.Cookies.Append("spotifyToken", spotifyAccessToken, options);
         }
@@ -75,6 +75,7 @@ namespace server.Controllers
         [Route("[controller]/spotify")]
         public IActionResult AuthenticateWithSpotify()
         {
+            Console.WriteLine("Call oauth spotify route");
             var spotifyAccessToken = HttpContext.Request.Cookies["spotifyToken"];
             if (spotifyAccessToken == null)
             {
@@ -84,8 +85,7 @@ namespace server.Controllers
                 };
                 return Redirect(request.ToUri().ToString());
             }
-
-            return Redirect(new Uri(credential.dashboardURI).ToString());
+            return Redirect(new Uri(credential.dashboardURI + "?token="+ spotifyAccessToken).ToString());
         }
     }
 }
