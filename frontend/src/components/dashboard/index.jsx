@@ -18,16 +18,15 @@ export function Dashboard() {
     const getTopArtists = async () => {
         const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/personal/top_artists`, {
             mode: 'cors',
-            credentials: 'include'
+            credentials: 'include',
         });
         if (response.ok) {
-            const data = await response.json()
+            const data = await response.json().finally(() => toggleLoading(!loading))
             setArtistList(data)
             toggleLoading(!loading)
+        } else {
+            pageHistory.push('/')
         }
-        // } else {
-        //     pageHistory.push('/')
-        // }
     }
 
     return (
