@@ -18,9 +18,8 @@ export function Dashboard() {
     const getTopArtists = async () => {
         const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/personal/top_artists`, {
             mode: 'cors',
-            credentials: 'include',
             headers: {
-                spotifyToken: Cookies.get('spotifyToken')
+                'spotify-token': Cookies.get('spotifyToken')
             }
         });
         if (response.ok) {
