@@ -19,6 +19,9 @@ export function Dashboard() {
         const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/personal/top_artists`, {
             mode: 'cors',
             credentials: 'include',
+            headers: {
+                spotifyToken: Cookies.get('spotifyToken')
+            }
         });
         if (response.ok) {
             const data = await response.json().finally(() => toggleLoading(!loading))
