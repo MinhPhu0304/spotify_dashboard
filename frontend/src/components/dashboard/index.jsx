@@ -24,9 +24,10 @@ export function Dashboard() {
             const data = await response.json().finally(() => toggleLoading(!loading))
             setArtistList(data)
             toggleLoading(!loading)
-        } else {
-            pageHistory.push('/')
         }
+        // } else {
+        //     pageHistory.push('/')
+        // }
     }
 
     return (
