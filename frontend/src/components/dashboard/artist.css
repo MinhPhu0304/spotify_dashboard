@@ -7,6 +7,23 @@
     margin: 20px;
 }
 
+.recently__played__container {
+    width: 25vw;
+    aspect-ratio: 1/1;
+    background-color: black;
+    color: white;
+    padding: 10px;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.artist__name {
+    color: white;
+    text-decoration: none;    
+}
+
 .artists__genres {
     color: grey;
     -webkit-line-clamp: 5;

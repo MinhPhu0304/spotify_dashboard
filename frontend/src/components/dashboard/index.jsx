@@ -1,38 +1,69 @@
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import Cookies from "js-cookie";
 
 import { TopArtist } from "./topArtists";
 import "../home/styles.css";
 import "./index.css";
+import "./artist.css";
 import { TopTracks } from "./topTracks";
+import { RecentlyPlayed } from "./recentlyPlayed";
 
 export function Dashboard() {
   const [artistList, setArtistList] = useState([]);
   const [topTracks, setTopTracks] = useState([]);
-  const [loading, toggleLoading] = useState(true);
+  const [recentlyPlayed, setRecentlyPlayed] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const history = useHistory();
+
+  const getRecentlyPlayed = () => {
+    fetch(`${process.env.REACT_APP_API_ENDPOINT}/personal/recently_played`, {
+      headers: {
+        "spotify-token": Cookies.get("spotifyToken"),
+      },
+    })
+      .then((res) => {
+        if (res.status === 401) {
+          history.push("/");
+        } else {
+          return res.json();
+        }
+      })
+      .then((data) => {
+        console.log(data);
+        setRecentlyPlayed(data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   useEffect(() => {
-    getTopArtists();
-    getTopTracks();
+    if (Cookies.get("spotifyToken") == null) {
+      history.push("/");
+    }
+    Promise.all([getTopArtists(), getTopTracks(), getRecentlyPlayed()]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const getTopArtists = async () => {
-    const response = await fetch(
-      `${process.env.REACT_APP_API_ENDPOINT}/personal/top_artists`,
-      {
-        headers: {
-          "spotify-token": Cookies.get("spotifyToken"),
-        },
-      }
-    );
-    if (response.ok) {
-      const data = await response.json().finally(() => toggleLoading(!loading));
-      setArtistList(data);
-      toggleLoading(!loading);
-    }
+  const getTopArtists = () => {
+    return fetch(`${process.env.REACT_APP_API_ENDPOINT}/personal/top_artists`, {
+      headers: {
+        "spotify-token": Cookies.get("spotifyToken"),
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setLoading(false);
+        setArtistList(data);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   };
 
   const getTopTracks = () => {
-    fetch(`${process.env.REACT_APP_API_ENDPOINT}/personal/top_tracks`, {
+    return fetch(`${process.env.REACT_APP_API_ENDPOINT}/personal/top_tracks`, {
       headers: {
         "spotify-token": Cookies.get("spotifyToken"),
       },
@@ -61,6 +92,14 @@ export function Dashboard() {
       />
       <div className="Top_artists_list__container">
         <TopTracks topTracks={topTracks} />
+      </div>
+      <h1>Recently Played </h1>
+      <div
+        className="donut"
+        style={{ display: loading ? "inline-block" : "none" }}
+      />
+      <div className="Top_artists_list__container">
+        <RecentlyPlayed tracks={recentlyPlayed} />
       </div>
     </div>
   );

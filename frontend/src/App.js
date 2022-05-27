@@ -5,6 +5,7 @@ import "./App.css";
 import { OAuthButton } from "components/home";
 import { Dashboard } from "components/dashboard";
 import { CallBackPage } from "components/callback";
+import { ArtistPage } from 'components/artist'
 
 function App() {
   useEffect(() => {
@@ -16,10 +17,13 @@ function App() {
     <Router>
       <div>
         <Switch>
-          <Route path="/callback">
+          <Route path="/artist/:id" exact>
+            <ArtistPage />
+          </Route>
+          <Route path="/callback" exact>
             <CallBackPage />
           </Route>
-          <Route path="/dashboard">
+          <Route path="/dashboard" exact>
             <Dashboard />
           </Route>
           <Route path="/">

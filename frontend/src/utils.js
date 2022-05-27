@@ -9,3 +9,8 @@ export function formatDurationToMinutes(durationMs) {
   const date = new Date(durationMs);
   return `${date.getMinutes()}:${date.getSeconds()}`;
 }
+
+
+export function formatArtists(artists) {
+  return artists.map((value) => value.name).join(", ");
+}
