@@ -15,7 +15,6 @@ export function ArtistPage() {
       .then((res) => res.json())
       .then((info) => {
         setArtistInfo(info);
-        console.log(info)
       })
       .catch(() => {});
   }, [id]);
