@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import Cookies from "js-cookie";
+import { captureException } from "@sentry/react";
 
 import { TopArtist } from "./topArtists";
 import "../home/styles.css";
@@ -30,11 +31,10 @@ export function Dashboard() {
         }
       })
       .then((data) => {
-        console.log(data);
         setRecentlyPlayed(data);
       })
       .catch((err) => {
-        console.error(err);
+        captureException(err);
       });
   };
 
@@ -43,7 +43,7 @@ export function Dashboard() {
       history.push("/");
     }
     Promise.all([getTopArtists(), getTopTracks(), getRecentlyPlayed()]);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getTopArtists = () => {
@@ -57,7 +57,8 @@ export function Dashboard() {
         setLoading(false);
         setArtistList(data);
       })
-      .catch(() => {
+      .catch((e) => {
+        captureException(e);
         setLoading(false);
       });
   };
@@ -70,14 +71,14 @@ export function Dashboard() {
     })
       .then((res) => res.json())
       .then(setTopTracks)
-      .catch((err) => {
-        console.error(err);
-      });
+      .catch((err) => captureException(err));
   };
 
   return (
     <div>
-      <h1 className="Hero__title">Your Top Artists in {new Date().getFullYear()}</h1>
+      <h1 className="Hero__title">
+        Your Top Artists in {new Date().getFullYear()}
+      </h1>
       <div
         className="donut"
         style={{ display: loading ? "inline-block" : "none" }}

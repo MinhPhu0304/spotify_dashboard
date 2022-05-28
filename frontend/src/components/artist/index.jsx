@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { captureException } from '@sentry/react'
 import Cookies from "js-cookie";
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
@@ -21,7 +22,7 @@ export function ArtistPage() {
       .then((info) => {
         setArtistInfo(info);
       })
-      .catch(() => {});
+      .catch((e) => captureException(e));
   }, [id]);
 
   useEffect(() => {
