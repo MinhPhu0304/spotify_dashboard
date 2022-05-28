@@ -1,3 +1,5 @@
+import startCase from "lodash/startCase";
+
 export function formatNumber(value) {
   if (typeof value != "number") {
     return 0;
@@ -13,4 +15,8 @@ export function formatDurationToMinutes(durationMs) {
 
 export function formatArtists(artists) {
   return artists.map((value) => value.name).join(", ");
+}
+
+export function convertAllToStartCases(stringArrays) {
+  return stringArrays.map((value) => startCase(value));
 }

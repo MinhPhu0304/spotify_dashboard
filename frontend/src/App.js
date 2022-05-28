@@ -20,7 +20,7 @@ function App() {
           <Route path="/artist/:id" exact>
             <ArtistPage />
           </Route>
-          <Route path="/callback" exact>
+          <Route path="/callback">
             <CallBackPage />
           </Route>
           <Route path="/dashboard" exact>

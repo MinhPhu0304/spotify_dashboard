@@ -1,0 +1,87 @@
+.Page__container {
+  padding:30px;
+}
+
+.genre__container {
+  padding-top: 10px;
+  display: flex;
+}
+
+.artist__image {
+  width: 25vw;
+  height:25vw;
+  min-width: 20vw;
+  object-fit: cover;
+}
+
+.album__image {
+  width: 15vw;
+  height:15vw;
+  min-width: 10vw;
+  object-fit: cover;
+}
+
+.genre {    
+  -webkit-margin-end: 8px;
+  -webkit-margin-after: 8px;
+  background-color: rgba(255,255,255,.1);
+  border-radius: 14px;
+  color: #fff;
+  font-size: 14px;
+  height: 28px;
+  line-height: 16px;
+  margin-block-end: 8px;
+  margin-inline-end: 8px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+}
+
+
+
+.genre__name {
+  box-sizing: border-box;
+  font-family: var(--font-family,spotify-circular),Helvetica,Arial,sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  margin-block: 0px;
+  font-size: 0.8125rem;
+  line-height: 1rem;
+  font-weight: 700;
+  color: inherit;
+}
+
+.Top_tracks_list__container {
+  display: flex;
+  width: 100%;
+  overflow-y: scroll;
+}
+
+.Top_tracks__card {
+  min-width: 300px;
+  padding-right: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.Top_tracks__card audio {
+  max-width: 250px;
+}
+
+.Top_tracks__card audio:focus {
+  outline: none;
+}
+
+/* Mobile Devices */
+@media (max-width: 480px) {
+    .genre__container {
+      flex-direction: column;
+    }
+
+    .Top_tracks__card audio {
+      max-width: 200px;
+    }
+}

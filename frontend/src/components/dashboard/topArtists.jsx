@@ -1,7 +1,6 @@
-import { first, startCase } from "lodash";
 import { Link } from "react-router-dom";
 
-import { formatNumber } from "utils";
+import { formatNumber, convertAllToStartCases } from "utils";
 
 export function TopArtist({ artistList }) {
   if (artistList == null || artistList.lenght === 0) {
@@ -18,7 +17,7 @@ function ArtistDetail({ artist, rank }) {
     <div className="artists__container">
       <h2 className="text-center">{rank + 1}</h2>
       <img
-        src={first(artist.images).url}
+        src={artist.images[0].url}
         className="artist__image"
         alt=""
         loading="lazy"
@@ -33,8 +32,4 @@ function ArtistDetail({ artist, rank }) {
       </p>
     </div>
   );
-}
-
-function convertAllToStartCases(stringArrays) {
-  return stringArrays.map((value) => startCase(value));
 }

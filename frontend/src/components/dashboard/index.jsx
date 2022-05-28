@@ -77,7 +77,7 @@ export function Dashboard() {
 
   return (
     <div>
-      <h1>Your Top Artists in {new Date().getFullYear()}</h1>
+      <h1 className="Hero__title">Your Top Artists in {new Date().getFullYear()}</h1>
       <div
         className="donut"
         style={{ display: loading ? "inline-block" : "none" }}
@@ -85,7 +85,7 @@ export function Dashboard() {
       <div className="Top_artists_list__container">
         <TopArtist artistList={artistList} />
       </div>
-      <h1>Your Top Tracks</h1>
+      <h1 className="Hero__title">Your Top Tracks</h1>
       <div
         className="donut"
         style={{ display: loading ? "inline-block" : "none" }}
@@ -93,7 +93,7 @@ export function Dashboard() {
       <div className="Top_artists_list__container">
         <TopTracks topTracks={topTracks} />
       </div>
-      <h1>Recently Played </h1>
+      <h1 className="Hero__title">Recently Played </h1>
       <div
         className="donut"
         style={{ display: loading ? "inline-block" : "none" }}
