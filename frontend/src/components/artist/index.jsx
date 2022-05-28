@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { captureException } from '@sentry/react'
+import { captureException } from "@sentry/react";
 import Cookies from "js-cookie";
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
@@ -10,9 +10,11 @@ import "./artist.css";
 export function ArtistPage() {
   let { id } = useParams();
   const [artistInfo, setArtistInfo] = useState();
+  const [loading, setLoading] = useState(true);
   const history = useHistory();
 
   const fetchArtist = useCallback(() => {
+    setLoading(true);
     return fetch(`${process.env.REACT_APP_API_ENDPOINT}/artist/${id}`, {
       headers: {
         "spotify-token": Cookies.get("spotifyToken"),
@@ -20,15 +22,19 @@ export function ArtistPage() {
     })
       .then((res) => {
         if (res.status === 401) {
-          history.push('/')
-          return
+          history.push("/");
+          return;
         }
-        return res.json()
+        setLoading(false);
+        return res.json();
       })
       .then((info) => {
         setArtistInfo(info);
       })
-      .catch((e) => captureException(e));
+      .catch((e) => {
+        setLoading(false)
+        captureException(e);
+      });
   }, [history, id]);
 
   useEffect(() => {
@@ -38,10 +44,17 @@ export function ArtistPage() {
     }
     fetchArtist();
   }, [fetchArtist, history]);
+  
+  if (loading) {
+    return <div className="Page__container">
+      <p>Loading....</p>
+    </div>
+  }
 
   if (!artistInfo) {
     return null;
   }
+
 
   return (
     <div className="Page__container">
