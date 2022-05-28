@@ -26,6 +26,7 @@ export function Dashboard() {
       .then((res) => {
         if (res.status === 401) {
           history.push("/");
+          return
         } else {
           return res.json();
         }
@@ -49,7 +50,7 @@ export function Dashboard() {
           history.push("/");
           return;
         }
-        res.json();
+        return res.json();
       })
       .then(setTopTracks)
       .catch((err) => captureException(err));
@@ -66,7 +67,7 @@ export function Dashboard() {
           history.push("/");
           return;
         }
-        res.json();
+        return res.json();
       })
       .then((data) => {
         setLoading(false);
