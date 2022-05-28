@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import Cookies from "js-cookie";
 import { captureException } from "@sentry/react";
@@ -17,7 +17,7 @@ export function Dashboard() {
   const [loading, setLoading] = useState(true);
   const history = useHistory();
 
-  const getRecentlyPlayed = () => {
+  const getRecentlyPlayed = useCallback(() => {
     fetch(`${process.env.REACT_APP_API_ENDPOINT}/personal/recently_played`, {
       headers: {
         "spotify-token": Cookies.get("spotifyToken"),
@@ -36,23 +36,38 @@ export function Dashboard() {
       .catch((err) => {
         captureException(err);
       });
-  };
+  }, [history]);
 
-  useEffect(() => {
-    if (Cookies.get("spotifyToken") == null) {
-      history.push("/");
-    }
-    Promise.all([getTopArtists(), getTopTracks(), getRecentlyPlayed()]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const getTopTracks = useCallback(() => {
+    return fetch(`${process.env.REACT_APP_API_ENDPOINT}/personal/top_tracks`, {
+      headers: {
+        "spotify-token": Cookies.get("spotifyToken"),
+      },
+    })
+      .then((res) => {
+        if (res.status === 401) {
+          history.push("/");
+          return;
+        }
+        res.json();
+      })
+      .then(setTopTracks)
+      .catch((err) => captureException(err));
+  }, [history]);
 
-  const getTopArtists = () => {
+  const getTopArtists = useCallback(() => {
     return fetch(`${process.env.REACT_APP_API_ENDPOINT}/personal/top_artists`, {
       headers: {
         "spotify-token": Cookies.get("spotifyToken"),
       },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 401) {
+          history.push("/");
+          return;
+        }
+        res.json();
+      })
       .then((data) => {
         setLoading(false);
         setArtistList(data);
@@ -61,18 +76,14 @@ export function Dashboard() {
         captureException(e);
         setLoading(false);
       });
-  };
+  }, [history]);
 
-  const getTopTracks = () => {
-    return fetch(`${process.env.REACT_APP_API_ENDPOINT}/personal/top_tracks`, {
-      headers: {
-        "spotify-token": Cookies.get("spotifyToken"),
-      },
-    })
-      .then((res) => res.json())
-      .then(setTopTracks)
-      .catch((err) => captureException(err));
-  };
+  useEffect(() => {
+    if (Cookies.get("spotifyToken") == null) {
+      history.push("/");
+    }
+    Promise.all([getTopArtists(), getTopTracks(), getRecentlyPlayed()]);
+  }, [getRecentlyPlayed, getTopArtists, getTopTracks, history]);
 
   return (
     <div>

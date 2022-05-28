@@ -18,12 +18,18 @@ export function ArtistPage() {
         "spotify-token": Cookies.get("spotifyToken"),
       },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 401) {
+          history.push('/')
+          return
+        }
+        return res.json()
+      })
       .then((info) => {
         setArtistInfo(info);
       })
       .catch((e) => captureException(e));
-  }, [id]);
+  }, [history, id]);
 
   useEffect(() => {
     if (Cookies.get("spotifyToken") == null) {
