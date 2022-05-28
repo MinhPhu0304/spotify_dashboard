@@ -55,7 +55,6 @@ export function ArtistPage() {
     return null;
   }
 
-
   return (
     <div className="Page__container">
       <h1>{artistInfo.artist.name}</h1>

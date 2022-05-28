@@ -12,11 +12,6 @@ export function formatDurationToMinutes(durationMs) {
   return `${date.getMinutes()}:${date.getSeconds()}`;
 }
 
-
-export function formatArtists(artists) {
-  return artists.map((value) => value.name).join(", ");
-}
-
 export function convertAllToStartCases(stringArrays) {
   return stringArrays.map((value) => startCase(value));
 }

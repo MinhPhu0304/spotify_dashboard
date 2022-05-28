@@ -1,4 +1,5 @@
-import { formatDurationToMinutes, formatArtists } from "utils";
+import { Link } from 'react-router-dom'
+import { formatDurationToMinutes } from "utils";
 
 export function RecentlyPlayed({ tracks }) {
   if (tracks == null || tracks.length === 0) {
@@ -15,7 +16,17 @@ function TrackDetail({ track, rank }) {
     <div className="recently__played__container">
       <h2 className="text-center">{rank + 1}</h2>
       <h1 className="artist-title">{track.name}</h1>
-      <p>Artists: {formatArtists(track.artists)}</p>
+      <p>
+        Artists:{" "}
+        {track.artists.map((artist, index) => (
+          <span>
+            <Link className="artist__name" to={`/artist/${artist.id}`}>
+              {artist.name}
+            </Link>{" "}
+            {index === track.artists.length - 1 ? "" : ", "}
+          </span>
+        ))}
+      </p>
       <p className="artists__genres text-left">
         Duration: {formatDurationToMinutes(track.duration_ms)}
       </p>

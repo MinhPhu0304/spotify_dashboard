@@ -1,6 +1,7 @@
 import { first } from "lodash";
+import { Link } from "react-router-dom";
 
-import { formatDurationToMinutes, formatArtists } from "utils";
+import { formatDurationToMinutes } from "utils";
 
 export function TopTracks({ topTracks }) {
   if (topTracks == null || topTracks.length === 0) {
@@ -24,7 +25,15 @@ function TrackDetail({ track, rank }) {
       />
 
       <h1 className="artist-title">{track.name}</h1>
-      <p>Artists: {formatArtists(track.artists)}</p>
+      <p>
+        Artists:{" "}
+        {track.artists.map((artist, index) => (
+          <span>
+            <Link className="artist__name" to={`/artist/${artist.id}`}>{artist.name}</Link>{" "}
+            {index === track.artists.length - 1 ? "" : ", "}
+          </span>
+        ))}
+      </p>
       <p className="artists__genres text-left">
         Duration: {formatDurationToMinutes(track.duration_ms)}
       </p>
