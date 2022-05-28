@@ -6,16 +6,6 @@
       "src": "https://open.scdn.co/cdn/images/favicon32.a19b4f5b.png",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
-    },
-    {
-      "src": "https://open.scdn.co/cdn/images/favicon32.a19b4f5b.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "https://open.scdn.co/cdn/images/favicon32.a19b4f5b.png",
-      "type": "image/png",
-      "sizes": "512x512"
     }
   ],
   "start_url": ".",
