@@ -48,3 +48,20 @@
     min-width: 20vw;
     object-fit: cover;
 }
+
+.recently__played__container audio {
+    max-width: 250px;
+}
+
+.recently__played__container audio:focus {
+    outline: none;
+  }
+
+  /* Mobile Devices */
+  @media (max-width: 480px) {
+
+      .recently__played__container audio {
+        max-width: 200px;
+      }
+  }
+  

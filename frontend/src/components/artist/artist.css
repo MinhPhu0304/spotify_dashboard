@@ -38,8 +38,6 @@
   width: fit-content;
 }
 
-
-
 .genre__name {
   box-sizing: border-box;
   font-family: var(--font-family,spotify-circular),Helvetica,Arial,sans-serif;
