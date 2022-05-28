@@ -32,7 +32,7 @@ export function ArtistPage() {
         setArtistInfo(info);
       })
       .catch((e) => {
-        setLoading(false)
+        setLoading(false);
         captureException(e);
       });
   }, [history, id]);
@@ -44,11 +44,19 @@ export function ArtistPage() {
     }
     fetchArtist();
   }, [fetchArtist, history]);
-  
+
+  useEffect(() => {
+    if (artistInfo) {
+      document.title = artistInfo.artist.name;
+    }
+  }, [artistInfo]);
+
   if (loading) {
-    return <div className="Page__container">
-      <p>Loading....</p>
-    </div>
+    return (
+      <div className="Page__container">
+        <p>Loading....</p>
+      </div>
+    );
   }
 
   if (!artistInfo) {

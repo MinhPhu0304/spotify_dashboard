@@ -28,7 +28,7 @@ function TrackDetail({ track, rank }) {
       <p>
         Artists:{" "}
         {track.artists.map((artist, index) => (
-          <span>
+          <span key={artist.id}>
             <Link className="artist__name" to={`/artist/${artist.id}`}>{artist.name}</Link>{" "}
             {index === track.artists.length - 1 ? "" : ", "}
           </span>
