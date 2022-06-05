@@ -4,11 +4,10 @@ import Cookies from "js-cookie";
 import { captureException } from "@sentry/react";
 
 import { TopArtist } from "./topArtists";
-import "../home/styles.css";
-import "./index.css";
-import "./artist.css";
+import "../index.css";
 import { TopTracks } from "./topTracks";
 import { RecentlyPlayed } from "./recentlyPlayed";
+import { fetchResource } from "components/api";
 
 export function Dashboard() {
   const [artistList, setArtistList] = useState([]);
@@ -18,57 +17,34 @@ export function Dashboard() {
   const history = useHistory();
 
   const getRecentlyPlayed = useCallback(() => {
-    fetch(`${process.env.REACT_APP_API_ENDPOINT}/personal/recently_played`, {
-      headers: {
-        "spotify-token": Cookies.get("spotifyToken"),
-      },
-    })
-      .then((res) => {
-        if (res.status === 401) {
-          history.push("/");
-          return
-        } else {
-          return res.json();
-        }
-      })
+    fetchResource(
+      `${process.env.REACT_APP_API_ENDPOINT}/personal/recently_played`
+    )
       .then((data) => {
         setRecentlyPlayed(data);
       })
       .catch((err) => {
         captureException(err);
       });
-  }, [history]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const getTopTracks = useCallback(() => {
-    return fetch(`${process.env.REACT_APP_API_ENDPOINT}/personal/top_tracks`, {
-      headers: {
-        "spotify-token": Cookies.get("spotifyToken"),
-      },
-    })
-      .then((res) => {
-        if (res.status === 401) {
-          history.push("/");
-          return;
-        }
-        return res.json();
+    return fetchResource(
+      `${process.env.REACT_APP_API_ENDPOINT}/personal/top_tracks`
+    )
+      .then((topTracks) => {
+        setTopTracks(topTracks);
+        setLoading(false);
       })
-      .then(setTopTracks)
       .catch((err) => captureException(err));
-  }, [history]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const getTopArtists = useCallback(() => {
-    return fetch(`${process.env.REACT_APP_API_ENDPOINT}/personal/top_artists`, {
-      headers: {
-        "spotify-token": Cookies.get("spotifyToken"),
-      },
-    })
-      .then((res) => {
-        if (res.status === 401) {
-          history.push("/");
-          return;
-        }
-        return res.json();
-      })
+    return fetchResource(
+      `${process.env.REACT_APP_API_ENDPOINT}/personal/top_artists`
+    )
       .then((data) => {
         setLoading(false);
         setArtistList(data);
@@ -77,41 +53,34 @@ export function Dashboard() {
         captureException(e);
         setLoading(false);
       });
-  }, [history]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (Cookies.get("spotifyToken") == null) {
       history.push("/");
     }
     Promise.all([getTopArtists(), getTopTracks(), getRecentlyPlayed()]);
-  }, [getRecentlyPlayed, getTopArtists, getTopTracks, history]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getRecentlyPlayed, getTopArtists, getTopTracks]);
 
   return (
     <div>
       <h1 className="Hero__title">
         Your Top Artists in {new Date().getFullYear()}
       </h1>
-      <div
-        className="donut"
-        style={{ display: loading ? "inline-block" : "none" }}
-      />
-      <div className="Top_artists_list__container">
+      {loading && <div className="donut" />}
+      <div className="list__container">
         <TopArtist artistList={artistList} />
       </div>
       <h1 className="Hero__title">Your Top Tracks</h1>
-      <div
-        className="donut"
-        style={{ display: loading ? "inline-block" : "none" }}
-      />
-      <div className="Top_artists_list__container">
+      {loading && <div className="donut" />}
+      <div className="list__container">
         <TopTracks topTracks={topTracks} />
       </div>
       <h1 className="Hero__title">Recently Played </h1>
-      <div
-        className="donut"
-        style={{ display: loading ? "inline-block" : "none" }}
-      />
-      <div className="Top_artists_list__container">
+      {loading && <div className="donut" />}
+      <div className="list__container">
         <RecentlyPlayed tracks={recentlyPlayed} />
       </div>
     </div>

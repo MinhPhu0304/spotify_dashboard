@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { formatNumber, convertAllToStartCases } from "utils";
 
 export function TopArtist({ artistList }) {
-  if (artistList == null || artistList.lenght === 0) {
+  if (artistList == null || artistList.length === 0) {
     return null;
   }
 

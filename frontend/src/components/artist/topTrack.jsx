@@ -1,13 +1,19 @@
+import { useState, useRef, useEffect } from "react";
+
 export function ArtistTopTracks({ topTracks, trackFeatures }) {
+  const [currentPlaying, setCurrentPlaying] = useState();
   return (
     <>
       <h1>Popular</h1>
-      <div className="Top_tracks_list__container">
+      <div className="list__container">
         {topTracks.map((track) => (
           <Track
             key={track.id}
             track={track}
             feature={trackFeatures[track.id]}
+            currentPlaying={currentPlaying}
+            onPlay={(e) => setCurrentPlaying(e)}
+            onPause={() => setCurrentPlaying()}
           />
         ))}
       </div>
@@ -15,10 +21,25 @@ export function ArtistTopTracks({ topTracks, trackFeatures }) {
   );
 }
 
-function Track({ track, feature }) {
+function Track({ track, feature, onPause, onPlay, currentPlaying }) {
+  const audio = useRef();
+
+  useEffect(() => {
+    if (audio.current && currentPlaying !== track.id) {
+      audio.current.pause();
+    }
+  }, [currentPlaying, track]);
+
   return (
-    <div className="Top_tracks__card">
-      <h3>{track.name}</h3>
+    <div className="Top_tracks__card artists__container preview__container">
+      <a
+        href={track.external_urls.spotify}
+        target="_blank"
+        className="artist__name"
+        rel="noreferrer"
+      >
+        <h3>{track.name}</h3>
+      </a>
       <img
         className="album__image"
         src={track.album.images[0].url}
@@ -36,7 +57,10 @@ function Track({ track, feature }) {
       </div>
       <audio
         src={track.preview_url}
+        onPlay={() => onPlay(track.id)}
+        onPause={() => track.id === currentPlaying && onPause()}
         controls
+        ref={audio}
         controlsList="nodownload noplaybackrate"
       />
     </div>

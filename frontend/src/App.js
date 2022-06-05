@@ -15,7 +15,6 @@ function App() {
 
   return (
     <Router>
-      <div>
         <Switch>
           <Route path="/artist/:id" exact>
             <ArtistPage />
@@ -30,7 +29,6 @@ function App() {
             <OAuthButton />
           </Route>
         </Switch>
-      </div>
     </Router>
   );
 }

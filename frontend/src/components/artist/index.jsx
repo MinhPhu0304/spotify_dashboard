@@ -5,45 +5,48 @@ import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 
 import { ArtistTopTracks } from "./topTrack";
-import "./artist.css";
+import "../index.css";
+import { TopArtist } from "components/dashboard/topArtists";
+import { fetchResource } from "components/api";
 
 export function ArtistPage() {
   let { id } = useParams();
   const [artistInfo, setArtistInfo] = useState();
+  const [relatedArtists, setRelatedArtists] = useState();
   const [loading, setLoading] = useState(true);
   const history = useHistory();
 
   const fetchArtist = useCallback(() => {
     setLoading(true);
-    return fetch(`${process.env.REACT_APP_API_ENDPOINT}/artist/${id}`, {
-      headers: {
-        "spotify-token": Cookies.get("spotifyToken"),
-      },
-    })
-      .then((res) => {
-        if (res.status === 401) {
-          history.push("/");
-          return;
-        }
-        setLoading(false);
-        return res.json();
-      })
+    return fetchResource(`${process.env.REACT_APP_API_ENDPOINT}/artist/${id}`)
       .then((info) => {
         setArtistInfo(info);
+        setLoading(false);
       })
       .catch((e) => {
         setLoading(false);
         captureException(e);
       });
-  }, [history, id]);
+  }, [id]);
+
+  const fetchRelatedArtist = useCallback(
+    () =>
+      fetchResource(
+        `${process.env.REACT_APP_API_ENDPOINT}/artist/${id}/related-artists`
+      )
+        .then(setRelatedArtists)
+        .catch(captureException),
+    [id]
+  );
 
   useEffect(() => {
     if (Cookies.get("spotifyToken") == null) {
       history.push("/");
       return;
     }
-    fetchArtist();
-  }, [fetchArtist, history]);
+    Promise.all([fetchRelatedArtist(), fetchArtist()]);
+    // eslint-disable-next-line 
+  }, [fetchArtist, fetchRelatedArtist]);
 
   useEffect(() => {
     if (artistInfo) {
@@ -52,11 +55,7 @@ export function ArtistPage() {
   }, [artistInfo]);
 
   if (loading) {
-    return (
-      <div className="Page__container">
-        <p>Loading....</p>
-      </div>
-    );
+    return <div className="donut" />;
   }
 
   if (!artistInfo) {
@@ -64,12 +63,12 @@ export function ArtistPage() {
   }
 
   return (
-    <div className="Page__container">
+    <div className="Hero__title">
       <h1>{artistInfo.artist.name}</h1>
       <img
         className="artist__image"
         src={artistInfo.artist.images[0].url}
-        alt=""
+        alt={artistInfo.artist.name}
       />
       <div className="genre__container">
         {artistInfo.artist.genres.map((genre, index) => (
@@ -80,6 +79,10 @@ export function ArtistPage() {
         topTracks={artistInfo.topTracks}
         trackFeatures={artistInfo.trackFeatures}
       />
+      <h1>Related</h1>
+      <div className="list__container">
+        <TopArtist artistList={relatedArtists} />
+      </div>
     </div>
   );
 }

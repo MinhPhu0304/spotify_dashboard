@@ -1,0 +1,154 @@
+.list__container {
+  display: flex;
+  width: 100%;
+  overflow-y: scroll;
+}
+
+@keyframes donut-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.donut {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #1db954;
+  border-radius: 50%;
+  margin: 30px;
+  width: 30px;
+  height: 30px;
+  animation: donut-spin 1.2s linear infinite;
+}
+
+.Hero__title {
+  padding: 30px;
+}
+
+.artists__container {
+  width: 25vw;
+  aspect-ratio: 1/1;
+  background-color: black;
+  color: white;
+  padding: 10px;
+  margin: 20px;
+}
+
+.preview__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.artist__name {
+  color: white;
+  text-decoration: none;
+}
+
+.artists__genres {
+  color: grey;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display: -webkit-box;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.artist__image {
+  width: 25vw;
+  height: 25vw;
+  object-fit: cover;
+}
+
+.preview__container audio {
+  max-width: 250px;
+}
+
+.preview__container audio:focus {
+  outline: none;
+}
+
+/*  Artist page */
+.genre__container {
+  padding-top: 10px;
+  display: flex;
+}
+
+.album__image {
+  width: 15vw;
+  height: 15vw;
+  object-fit: cover;
+}
+
+.genre {
+  -webkit-margin-end: 8px;
+  -webkit-margin-after: 8px;
+  background-color: rgba(255, 255, 255, .1);
+  border-radius: 14px;
+  color: #fff;
+  font-size: 14px;
+  height: 28px;
+  line-height: 16px;
+  margin-block-end: 8px;
+  margin-inline-end: 8px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+}
+
+.genre__name {
+  font-family: var(--font-family, spotify-circular), Helvetica, Arial, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  margin-block: 0px;
+  font-size: 0.8125rem;
+  line-height: 1rem;
+  font-weight: 700;
+}
+
+.Top_tracks__card {
+  min-width: 300px;
+  padding-right: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+/* Mobile Devices */
+@media (max-width: 480px) {
+  .genre__container {
+    flex-direction: column;
+  }
+
+  .preview__container audio {
+    max-width: 200px;
+  }
+
+  .artists__container {
+    width: 50vw;
+  }
+
+  .artist__image {
+    width: 55vw;
+    height: auto;
+  }
+
+  .album__image {
+    width: 50%;
+    height: auto;
+  }
+}

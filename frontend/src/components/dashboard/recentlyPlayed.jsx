@@ -1,19 +1,37 @@
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
 import { formatDurationToMinutes } from "utils";
 
 export function RecentlyPlayed({ tracks }) {
+  const [currentPlaying, setCurrentPlaying] = useState();
+
   if (tracks == null || tracks.length === 0) {
     return null;
   }
 
   return tracks.map(({ track }, index) => (
-    <TrackDetail track={track} key={index} rank={index} />
+    <TrackDetail
+      track={track}
+      key={index}
+      rank={index}
+      onPause={() => setCurrentPlaying()}
+      onPlay={(id) => setCurrentPlaying(id)}
+      currentPlaying={currentPlaying}
+    />
   ));
 }
 
-function TrackDetail({ track, rank }) {
+function TrackDetail({ track, rank, onPause, onPlay, currentPlaying }) {
+  const audio = useRef();
+
+  useEffect(() => {
+    if (audio.current && currentPlaying !== track.id) {
+      audio.current.pause();
+    }
+  }, [currentPlaying, track]);
+
   return (
-    <div className="recently__played__container">
+    <div className="artists__container preview__container">
       <h2 className="text-center">{rank + 1}</h2>
       <h1 className="artist-title">{track.name}</h1>
       <p>
@@ -31,7 +49,13 @@ function TrackDetail({ track, rank }) {
         Duration: {formatDurationToMinutes(track.duration_ms)}
       </p>
       <p>Preview: </p>
-      <audio controls src={track.preview_url}>
+      <audio
+        controls
+        src={track.preview_url}
+        ref={audio}
+        onPlay={() => onPlay(track.id)}
+        onPause={() => track.id === currentPlaying && onPause()}
+      >
         Your browser does not support the
         <code>audio</code> element.
       </audio>
