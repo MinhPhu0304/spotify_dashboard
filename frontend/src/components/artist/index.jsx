@@ -8,6 +8,7 @@ import { ArtistTopTracks } from "./topTrack";
 import "../index.css";
 import { TopArtist } from "components/dashboard/topArtists";
 import { fetchResource } from "components/api";
+import { Bio } from "./bio";
 
 export function ArtistPage() {
   let { id } = useParams();
@@ -45,7 +46,7 @@ export function ArtistPage() {
       return;
     }
     Promise.all([fetchRelatedArtist(), fetchArtist()]);
-    // eslint-disable-next-line 
+    // eslint-disable-next-line
   }, [fetchArtist, fetchRelatedArtist]);
 
   useEffect(() => {
@@ -75,6 +76,7 @@ export function ArtistPage() {
           <Genre genre={genre} key={index} />
         ))}
       </div>
+      <Bio bioParts={artistInfo.bio} />
       <ArtistTopTracks
         topTracks={artistInfo.topTracks}
         trackFeatures={artistInfo.trackFeatures}
