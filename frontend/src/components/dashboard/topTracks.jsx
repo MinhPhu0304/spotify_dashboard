@@ -1,4 +1,3 @@
-import { first } from "lodash";
 import { Link } from "react-router-dom";
 
 import { formatDurationToMinutes } from "utils";
@@ -18,7 +17,7 @@ function TrackDetail({ track, rank }) {
     <div className="artists__container">
       <h2 className="text-center">{rank + 1}</h2>
       <img
-        src={first(track.album.images).url}
+        src={track.album.images[0].url}
         className="artist__image"
         loading="lazy"
         alt=""
