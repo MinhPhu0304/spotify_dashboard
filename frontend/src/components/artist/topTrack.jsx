@@ -59,7 +59,7 @@ function Track({ track, feature, onPause, onPlay, currentPlaying }) {
         src={track.preview_url}
         onPlay={() => onPlay(track.id)}
         onPause={() => track.id === currentPlaying && onPause()}
-        preload={false}
+        preload='none'
         controls
         ref={audio}
         controlsList="nodownload noplaybackrate"

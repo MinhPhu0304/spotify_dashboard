@@ -23,12 +23,18 @@ function TrackDetail({ track, rank }) {
         alt=""
       />
 
-      <h1 className="artist-title">{track.name}</h1>
+      <h1 className="artist-title">
+        <Link className="artist__name" to={`/song/${track.id}`}>
+          {track.name}
+        </Link>
+      </h1>
       <p>
         Artists:{" "}
         {track.artists.map((artist, index) => (
           <span key={artist.id}>
-            <Link className="artist__name" to={`/artist/${artist.id}`}>{artist.name}</Link>{" "}
+            <Link className="artist__name" to={`/artist/${artist.id}`}>
+              {artist.name}
+            </Link>{" "}
             {index === track.artists.length - 1 ? "" : ", "}
           </span>
         ))}

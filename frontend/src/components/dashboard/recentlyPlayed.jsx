@@ -53,7 +53,7 @@ function TrackDetail({ track, rank, onPause, onPlay, currentPlaying }) {
         controls
         src={track.preview_url}
         ref={audio}
-        preload={false}
+        preload="none"
         onPlay={() => onPlay(track.id)}
         onPause={() => track.id === currentPlaying && onPause()}
       >

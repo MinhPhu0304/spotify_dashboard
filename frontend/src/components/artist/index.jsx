@@ -1,8 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { captureException } from "@sentry/react";
 import Cookies from "js-cookie";
-import { useParams } from "react-router-dom";
-import { useHistory } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import { ArtistTopTracks } from "./topTrack";
 import "../index.css";
@@ -15,7 +14,7 @@ export function ArtistPage() {
   const [artistInfo, setArtistInfo] = useState();
   const [relatedArtists, setRelatedArtists] = useState();
   const [loading, setLoading] = useState(true);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const fetchArtist = useCallback(() => {
     setLoading(true);
@@ -42,12 +41,11 @@ export function ArtistPage() {
 
   useEffect(() => {
     if (Cookies.get("spotifyToken") == null) {
-      history.push("/");
+      navigate("/");
       return;
     }
     Promise.all([fetchRelatedArtist(), fetchArtist()]);
-    // eslint-disable-next-line
-  }, [fetchArtist, fetchRelatedArtist]);
+  }, [fetchArtist, fetchRelatedArtist, navigate]);
 
   useEffect(() => {
     if (artistInfo) {

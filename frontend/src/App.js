@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 
 import "./App.css";
@@ -7,6 +7,7 @@ import { Dashboard } from "components/dashboard";
 import { CallBackPage } from "components/callback";
 import { ArtistPage } from "components/artist";
 import { ErrorBoundary } from "@sentry/react";
+import { SongDetail } from "components/song";
 
 function App() {
   useEffect(() => {
@@ -15,30 +16,50 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <Switch>
-        <Route path="/artist/:id" exact>
-          <ErrorBoundary>
-            <ArtistPage />
-          </ErrorBoundary>
-        </Route>
-        <Route path="/callback">
-          <ErrorBoundary>
-            <CallBackPage />
-          </ErrorBoundary>
-        </Route>
-        <Route path="/dashboard" exact>
-          <ErrorBoundary>
-            <Dashboard />
-          </ErrorBoundary>
-        </Route>
-        <Route path="/">
-          <ErrorBoundary>
-            <OAuthButton />
-          </ErrorBoundary>
-        </Route>
-      </Switch>
-    </Router>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/song/:id"
+          element={
+            <ErrorBoundary>
+              <SongDetail />
+            </ErrorBoundary>
+          }
+        />
+        <Route
+          path="/artist/:id"
+          element={
+            <ErrorBoundary>
+              <ArtistPage />
+            </ErrorBoundary>
+          }
+        />
+        <Route
+          path="/callback"
+          element={
+            <ErrorBoundary>
+              <CallBackPage />
+            </ErrorBoundary>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <ErrorBoundary>
+              <Dashboard />
+            </ErrorBoundary>
+          }
+        />
+        <Route
+          path="/"
+          element={
+            <ErrorBoundary>
+              <OAuthButton />
+            </ErrorBoundary>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

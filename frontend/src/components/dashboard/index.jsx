@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { captureException } from "@sentry/react";
 
@@ -14,7 +14,7 @@ export function Dashboard() {
   const [topTracks, setTopTracks] = useState([]);
   const [recentlyPlayed, setRecentlyPlayed] = useState([]);
   const [loading, setLoading] = useState(true);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const getRecentlyPlayed = useCallback(() => {
     fetchResource(
@@ -26,7 +26,6 @@ export function Dashboard() {
       .catch((err) => {
         captureException(err);
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getTopTracks = useCallback(() => {
@@ -38,7 +37,6 @@ export function Dashboard() {
         setLoading(false);
       })
       .catch((err) => captureException(err));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getTopArtists = useCallback(() => {
@@ -53,16 +51,14 @@ export function Dashboard() {
         captureException(e);
         setLoading(false);
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (Cookies.get("spotifyToken") == null) {
-      history.push("/");
+      navigate("/");
     }
     Promise.all([getTopArtists(), getTopTracks(), getRecentlyPlayed()]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getRecentlyPlayed, getTopArtists, getTopTracks]);
+  }, [getRecentlyPlayed, getTopArtists, getTopTracks, navigate]);
 
   return (
     <div>

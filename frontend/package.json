@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@sentry/react": "^7.0.0",
-    "@sentry/tracing": "^7.0.0",
-    "date-fns": "^2.28.0",
+    "@sentry/react": "^7.24.2",
+    "@sentry/tracing": "^7.24.2",
+    "date-fns": "^2.29.3",
     "js-cookie": "^3.0.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "react-router-dom": "^5.2.0",
+    "react-router-dom": "^6.4.5",
     "react-scripts": "^5.0.1"
   },
   "devDependencies": {
@@ -19,6 +19,7 @@
     "source-map-explorer": "^2.5.2"
   },
   "scripts": {
+    "analyse": "source-map-explorer build/static/js/*.js",
     "start": "react-scripts start",
     "build": "react-scripts build && cp _redirects ./build/",
     "test": "react-scripts test",

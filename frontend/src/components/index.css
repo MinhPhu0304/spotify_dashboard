@@ -73,6 +73,10 @@
   text-align: center;
 }
 
+.text-green {
+  color: #1db954;
+}
+
 .text-left {
   text-align: left;
 }
