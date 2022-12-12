@@ -1,0 +1,23 @@
+.song_page__container {
+  overflow-y: hidden;
+}
+
+.song_list__container {
+  overflow-x: scroll;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.song__container {
+  min-width: 300px;
+  min-height: 20rem;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  margin: 4rem 2rem 10px 2rem;
+}
+
+.song_info__container {
+  margin-bottom: 2rem;
+}

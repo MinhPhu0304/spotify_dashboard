@@ -6,6 +6,7 @@ import { captureException } from "@sentry/react";
 import { formatDurationToMinutes } from "utils";
 
 import "../index.css";
+import "./song.css";
 
 export function SongDetail() {
   let { id } = useParams();
@@ -36,22 +37,22 @@ export function SongDetail() {
   }
 
   return (
-    <>
-      <div className="Hero__title">
-        <h1>{songInfo.detail.name}</h1>
-        <img
-          className="artist__image"
-          src={songInfo.detail.album.images[0].url}
-          alt={songInfo.detail.album.name}
-        />
-        <h1>Related</h1>
+    <div className="song_page__container">
+      <h1>{songInfo.detail.name}</h1>
+      <img
+        className="artist__image"
+        src={songInfo.detail.album.images[0].url}
+        alt={songInfo.detail.album.name}
+      />
+      <h1>Related tracks</h1>
+      <div className="song_list__container">
         {songInfo.recommendations.map((track, i) => {
           return (
-            <div key={track.id}>
-              <div className="artists__container">
+            <div key={track.id} className="song__container">
+              <div className="song_info__container">
                 <h2 className="text-center">{i + 1}</h2>
 
-                <h1 className="artist-title">
+                <h1>
                   <Link className="artist__name" to={`/song/${track.id}`}>
                     {track.name}
                   </Link>
@@ -70,26 +71,26 @@ export function SongDetail() {
                     </span>
                   ))}
                 </p>
-                <p className="artists__genres text-left">
-                  Duration: {formatDurationToMinutes(track.duration_ms)}
-                </p>
+                <p>Duration: {formatDurationToMinutes(track.duration_ms)}</p>
                 <br />
                 <a
                   href={track.external_urls.spotify}
                   target="_blank"
-                  className="artist__name text-green"
+                  className="text-green"
                   rel="noreferrer"
                 >
                   Play on spotify
                 </a>
-                {track.preview_url ? (
-                  <audio controls src={track.preview_url} preload="none" />
-                ) : <p>Preview unavailable</p>}
               </div>
+              {track.preview_url ? (
+                <audio controls src={track.preview_url} preload="none" />
+              ) : (
+                <p>Preview unavailable</p>
+              )}
             </div>
           );
         })}
       </div>
-    </>
+    </div>
   );
 }

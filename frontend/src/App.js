@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 
-import "./App.css";
 import { OAuthButton } from "components/home";
 import { Dashboard } from "components/dashboard";
 import { CallBackPage } from "components/callback";
@@ -16,50 +15,52 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/song/:id"
-          element={
-            <ErrorBoundary>
-              <SongDetail />
-            </ErrorBoundary>
-          }
-        />
-        <Route
-          path="/artist/:id"
-          element={
-            <ErrorBoundary>
-              <ArtistPage />
-            </ErrorBoundary>
-          }
-        />
-        <Route
-          path="/callback"
-          element={
-            <ErrorBoundary>
-              <CallBackPage />
-            </ErrorBoundary>
-          }
-        />
-        <Route
-          path="/dashboard"
-          element={
-            <ErrorBoundary>
-              <Dashboard />
-            </ErrorBoundary>
-          }
-        />
-        <Route
-          path="/"
-          element={
-            <ErrorBoundary>
-              <OAuthButton />
-            </ErrorBoundary>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
+    <div className="app">
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/song/:id"
+            element={
+              <ErrorBoundary>
+                <SongDetail />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/artist/:id"
+            element={
+              <ErrorBoundary>
+                <ArtistPage />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/callback"
+            element={
+              <ErrorBoundary>
+                <CallBackPage />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <ErrorBoundary>
+                <Dashboard />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <ErrorBoundary>
+                <OAuthButton />
+              </ErrorBoundary>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 
