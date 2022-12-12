@@ -1,3 +1,11 @@
+.home__container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
 .Spofity__oauth__button {
     border-radius: 500px;
     padding: 11px 32px 9px;
@@ -19,6 +27,6 @@
 
 .Spofity__oauth__button:hover {
     background-color: #1aa34a;
-    box-shadow: 0 0 0 2px rgba(0,0,0,.1)inset;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, .1)inset;
     text-decoration: none;
 }
