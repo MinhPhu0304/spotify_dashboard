@@ -46,7 +46,7 @@ function Track({ track, feature, onPause, onPlay, currentPlaying }) {
         alt=""
         loading="lazy"
       />
-      <div>
+      <div className="track_feature__container">
         <p>Acousticness: {feature.acousticness}</p>
         <p>Danceability: {feature.danceability}</p>
         <p>Energy: {feature.energy}</p>
@@ -55,11 +55,14 @@ function Track({ track, feature, onPause, onPlay, currentPlaying }) {
         <p>Tempo: {feature.tempo}</p>
         <p>Valence: {feature.valence}</p>
       </div>
+      <a className="text-green" href={`/song/${track.id}`}>
+        Similar tracks
+      </a>
       <audio
         src={track.preview_url}
         onPlay={() => onPlay(track.id)}
         onPause={() => track.id === currentPlaying && onPause()}
-        preload='none'
+        preload="none"
         controls
         ref={audio}
         controlsList="nodownload noplaybackrate"

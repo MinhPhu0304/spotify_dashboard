@@ -1,0 +1,5 @@
+.track_feature__container {
+  display: grid;
+  grid-template-rows: 1fr;
+  row-gap: 1rem;
+}

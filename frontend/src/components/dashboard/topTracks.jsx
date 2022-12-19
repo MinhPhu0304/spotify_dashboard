@@ -23,7 +23,7 @@ function TrackDetail({ track, rank }) {
         alt=""
       />
 
-      <h1 className="artist-title">
+      <h1 className="artist__name">
         <Link className="artist__name" to={`/song/${track.id}`}>
           {track.name}
         </Link>

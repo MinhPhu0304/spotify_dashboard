@@ -21,3 +21,9 @@
 .song_info__container {
   margin-bottom: 2rem;
 }
+
+.song_feature__container {
+  display: grid;
+  row-gap: 1rem;
+  padding: 1rem;
+}

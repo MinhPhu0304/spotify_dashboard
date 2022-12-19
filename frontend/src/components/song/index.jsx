@@ -1,5 +1,5 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Cookies from "js-cookie";
 import { fetchResource } from "components/api";
 import { captureException } from "@sentry/react";
@@ -8,13 +8,37 @@ import { formatDurationToMinutes } from "utils";
 import "../index.css";
 import "./song.css";
 
+function PreviewTrack({ track, currentPlaying, setCurrentPlaying }) {
+  const audio = useRef();
+
+  useEffect(() => {
+    if (audio.current && currentPlaying !== track.id) {
+      audio.current.pause();
+    }
+  }, [currentPlaying, track]);
+
+  return (
+    <audio
+      controls
+      preload="none"
+      controlsList="nodownload noplaybackrate"
+      ref={audio}
+      src={track.preview_url}
+      onPlay={() => setCurrentPlaying(track.id)}
+      onPause={() => track.id === currentPlaying && setCurrentPlaying()}
+    />
+  );
+}
+
 export function SongDetail() {
   let { id } = useParams();
   const navigate = useNavigate();
   const [songInfo, setSongInfo] = useState();
   const [loading, setLoading] = useState(true);
+  const [currentPlaying, setCurrentPlaying] = useState();
 
   const fetchSongDetail = useCallback(() => {
+    setLoading(true);
     fetchResource(`${process.env.REACT_APP_API_ENDPOINT}/song/${id}`)
       .then(setSongInfo)
       .then(() => setLoading(false))
@@ -33,7 +57,7 @@ export function SongDetail() {
   }, [fetchSongDetail, navigate]);
 
   if (loading) {
-    return null;
+    return <div className="donut" />;
   }
 
   return (
@@ -44,6 +68,15 @@ export function SongDetail() {
         src={songInfo.detail.album.images[0].url}
         alt={songInfo.detail.album.name}
       />
+
+      <div className="song_feature__container">
+        <p>Popularity: {songInfo.detail.popularity}</p>
+        <p>Available in {songInfo.detail.available_markets.length} countries</p>
+        <p>Duration {formatDurationToMinutes(songInfo.detail.duration_ms)}</p>
+        {songInfo.detail.album.release_date_precision === "day" ? (
+          <p>Release day: {(new Date(songInfo.detail.album.release_date)).toDateString()}</p>
+        ) : null}
+      </div>
       <h1>Related tracks</h1>
       <div className="song_list__container">
         {songInfo.recommendations.map((track, i) => {
@@ -83,7 +116,11 @@ export function SongDetail() {
                 </a>
               </div>
               {track.preview_url ? (
-                <audio controls src={track.preview_url} preload="none" />
+                <PreviewTrack
+                  track={track}
+                  currentPlaying={currentPlaying}
+                  setCurrentPlaying={setCurrentPlaying}
+                />
               ) : (
                 <p>Preview unavailable</p>
               )}

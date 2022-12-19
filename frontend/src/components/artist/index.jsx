@@ -5,6 +5,7 @@ import { useParams, useNavigate } from "react-router-dom";
 
 import { ArtistTopTracks } from "./topTrack";
 import "../index.css";
+import "./artist.css";
 import { TopArtist } from "components/dashboard/topArtists";
 import { fetchResource } from "components/api";
 import { Bio } from "./bio";

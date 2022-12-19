@@ -33,7 +33,9 @@ function TrackDetail({ track, rank, onPause, onPlay, currentPlaying }) {
   return (
     <div className="artists__container preview__container">
       <h2 className="text-center">{rank + 1}</h2>
-      <h1 className="artist-title">{track.name}</h1>
+      <a href={`/song/${track.id}`}>
+        <h1 className="artist__name">{track.name}</h1>
+      </a>
       <p>
         Artists:{" "}
         {track.artists.map((artist, index) => (

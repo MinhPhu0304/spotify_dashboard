@@ -9,7 +9,9 @@ export function formatNumber(value) {
 
 export function formatDurationToMinutes(durationMs) {
   const date = new Date(durationMs);
-  return `${date.getMinutes()}:${date.getSeconds()}`;
+  return `${date.getMinutes()}:${
+    date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()
+  }`;
 }
 
 export function convertAllToStartCases(stringArrays) {
