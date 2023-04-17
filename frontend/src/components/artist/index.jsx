@@ -67,6 +67,7 @@ export function ArtistPage() {
       <h1>{artistInfo.artist.name}</h1>
       <img
         className="artist__image"
+        loading="lazy"
         src={artistInfo.artist.images[0].url}
         alt={artistInfo.artist.name}
       />

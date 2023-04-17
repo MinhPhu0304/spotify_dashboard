@@ -67,6 +67,7 @@ export function SongDetail() {
         className="artist__image"
         src={songInfo.detail.album.images[0].url}
         alt={songInfo.detail.album.name}
+        loading="lazy"
       />
 
       <div className="song_feature__container">
